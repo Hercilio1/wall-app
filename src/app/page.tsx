@@ -5,10 +5,12 @@ import Container from '@mui/material/Container'
 import Header from '@/components/common/Header'
 import MessageForm from '@/components/messages/MessageForm'
 import MessagesList from '@/components/messages/MessagesList'
+import { Provider } from 'react-redux'
+import store from '@/store/store'
 
 export default function Home() {
   return (
-    <>
+    <Provider store={store}>
       <Header />
       <main className="py-24">
         <Box className="py-8">
@@ -20,6 +22,6 @@ export default function Home() {
           </Container>
         </Box>
       </main>
-    </>
+    </Provider>
   )
 }

@@ -24,7 +24,6 @@ export default function RootLayout({
             sx={{
               bgcolor: 'background.default',
             }}
-            // className="chalk"
           >
             {children}
           </Box>

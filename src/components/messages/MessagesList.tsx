@@ -1,3 +1,11 @@
+'use client'
+
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+
+import { fetchEntries } from '@/store/actions/entryActions'
+import { RootState, useAppDispatch } from '@/store/store'
+
 import {
   Box,
   Button,
@@ -10,6 +18,17 @@ import {
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 export default function MessagesList() {
+  const dispatch = useAppDispatch()
+  const { entries, loading, error, currentPage } = useSelector(
+    (state: RootState) => state.entries
+  )
+
+  console.log('entries', entries)
+
+  useEffect(() => {
+    dispatch(fetchEntries(currentPage))
+  }, [dispatch, currentPage])
+
   return (
     <Box className="flex flex-col">
       {cards.map((card) => (
