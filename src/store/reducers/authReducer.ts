@@ -4,6 +4,8 @@ import { login, renewAccessToken } from '@/store/actions/authActions'
 interface TokenState {
   accessToken: string | null
   refreshToken: string | null
+  loading: 'idle' | 'loading' | 'succeeded' | 'failed'
+  error: string | undefined
 }
 
 const initialState: TokenState = {
@@ -13,6 +15,8 @@ const initialState: TokenState = {
     typeof window !== 'undefined'
       ? localStorage.getItem('refresh_token')
       : null,
+  loading: 'idle',
+  error: undefined,
 }
 
 const authSlice = createSlice({
@@ -32,13 +36,30 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(login.pending, (state) => {
+        state.loading = 'loading'
+      })
+      .addCase(renewAccessToken.pending, (state) => {
+        state.loading = 'loading'
+      })
       .addCase(login.fulfilled, (state, action) => {
+        state.loading = 'succeeded'
         state.accessToken = action.payload.access_token
         state.refreshToken = action.payload.refresh_token
       })
       .addCase(renewAccessToken.fulfilled, (state, action) => {
+        state.loading = 'succeeded'
         state.accessToken = action.payload.access_token
         state.refreshToken = action.payload.refresh_token
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = 'failed'
+        state.error = action.payload as string
+        console.log(action)
+      })
+      .addCase(renewAccessToken.rejected, (state, action) => {
+        state.loading = 'failed'
+        state.error = action.payload as string
       })
   },
 })

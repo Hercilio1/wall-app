@@ -18,6 +18,12 @@ export function login(username: string, password: string): Promise<Auth> {
       }
       throw new Error('Authentication failed')
     })
+    .catch((error) => {
+      if (error?.response?.data?.error_description) {
+        throw new Error(error.response.data.error_description)
+      }
+      throw new Error('Authentication failed')
+    })
 }
 
 export function refreshTokens(refreshToken: string): Promise<Auth> {
@@ -33,6 +39,12 @@ export function refreshTokens(refreshToken: string): Promise<Auth> {
           access_token: response.data.access_token,
           refresh_token: response.data.refresh_token,
         } as Auth
+      }
+      throw new Error('Authentication failed')
+    })
+    .catch((error) => {
+      if (error?.response?.data?.error_description) {
+        throw new Error(error.response.data.error_description)
       }
       throw new Error('Authentication failed')
     })

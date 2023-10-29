@@ -2,6 +2,7 @@
 
 import { AppBar, Toolbar, Typography } from '@mui/material'
 import { Button } from '@mui/material'
+import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -28,7 +29,9 @@ export default function Header() {
         >
           Wall App
         </Typography>
-        <Button color="primary">Login</Button>
+        <Button color="primary" href="/login" LinkComponent={Link}>
+          Login
+        </Button>
       </Toolbar>
     </AppBar>
   )
