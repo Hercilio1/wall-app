@@ -1,5 +1,5 @@
 export interface Entry {
-  id: string
-  title: string
-  body: string
+  id: number
+  content: string
+  created_at: string
 }
