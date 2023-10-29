@@ -7,8 +7,12 @@ interface TokenState {
 }
 
 const initialState: TokenState = {
-  accessToken: localStorage.getItem('access_token') || null,
-  refreshToken: localStorage.getItem('refresh_token') || null,
+  accessToken:
+    typeof window !== 'undefined' ? localStorage.getItem('access_token') : null,
+  refreshToken:
+    typeof window !== 'undefined'
+      ? localStorage.getItem('refresh_token')
+      : null,
 }
 
 const authSlice = createSlice({

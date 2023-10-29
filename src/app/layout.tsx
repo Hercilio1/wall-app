@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import ThemeRegistry from '@/components/Theme/ThemeRegistry'
-import { Box } from '@mui/material'
+import { PublicProvider } from '@/components/providers/PublicProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,15 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeRegistry options={{ key: 'mui' }}>
-          <Box
-            sx={{
-              bgcolor: 'background.default',
-            }}
-          >
-            {children}
-          </Box>
-        </ThemeRegistry>
+        <PublicProvider>{children}</PublicProvider>
       </body>
     </html>
   )

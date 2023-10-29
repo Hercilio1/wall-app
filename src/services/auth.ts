@@ -3,7 +3,7 @@ import { Auth } from '@/models/Auth'
 
 export function login(username: string, password: string): Promise<Auth> {
   return api
-    .post(`${process.env.NEXT_PUBLIC_URL_API}/o/token`, {
+    .post(`${process.env.NEXT_PUBLIC_URL_API}/o/token/`, {
       grant_type: 'password',
       username,
       password,
