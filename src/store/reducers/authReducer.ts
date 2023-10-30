@@ -32,6 +32,7 @@ const authSlice = createSlice({
       state.refreshToken = null
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
+      window.location.reload()
     },
   },
   extraReducers: (builder) => {
@@ -55,7 +56,6 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = 'failed'
         state.error = action.payload as string
-        console.log(action)
       })
       .addCase(renewAccessToken.rejected, (state, action) => {
         state.loading = 'failed'

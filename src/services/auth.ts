@@ -1,8 +1,8 @@
-import { api } from '.'
+import Api from '.'
 import { Auth } from '@/models/Auth'
 
 export function login(username: string, password: string): Promise<Auth> {
-  return api
+  return Api.getInstance()
     .post(`${process.env.NEXT_PUBLIC_URL_API}/o/token/`, {
       grant_type: 'password',
       username,
@@ -27,7 +27,7 @@ export function login(username: string, password: string): Promise<Auth> {
 }
 
 export function refreshTokens(refreshToken: string): Promise<Auth> {
-  return api
+  return Api.getInstance()
     .post(`${process.env.NEXT_PUBLIC_URL_API}/o/token`, {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,

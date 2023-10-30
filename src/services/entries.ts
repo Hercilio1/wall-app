@@ -1,8 +1,8 @@
 import { Entry } from '@/models/Entry'
-import { api } from '.'
+import Api from '.'
 
 export function getEntries(page: number = 1): Promise<Entry[]> {
-  return api
+  return Api.getInstance()
     .get(`${process.env.NEXT_PUBLIC_URL_API}/api/v1/entries/?format=json`, {
       params: { page }, // TODO: Corrigir lógica de paginação
     })

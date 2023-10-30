@@ -21,8 +21,6 @@ export default function MessagesList() {
     (state: RootState) => state.entries
   )
 
-  console.log('entries', entries)
-
   useEffect(() => {
     dispatch(fetchEntries(currentPage))
   }, [dispatch, currentPage])
