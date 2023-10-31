@@ -6,53 +6,42 @@ const instance = axios.create({
 })
 
 class Api {
-  private static _instance: Api
-
   public static getInstance() {
-    return this._instance || (this._instance = new this())
+    return instance
   }
 
-  public get_auth(
-    token: string | null,
-    endpoint: string,
-    params: AxiosRequestConfig = {}
-  ) {
+  public static get_auth(endpoint: string, params: AxiosRequestConfig = {}) {
     return instance.get(endpoint, {
       params: { ...params },
-      headers: token ? { Authorization: 'Bearer ' + token } : {},
+      headers: { Authorization: 'AuthBearer' },
     })
   }
 
-  public delete_auth(
-    token: string,
-    endpoint: string,
-    params: AxiosRequestConfig
-  ) {
+  public static delete_auth(endpoint: string, params: AxiosRequestConfig) {
     return instance.delete(endpoint, {
       params: { ...params },
-      headers: token ? { Authorization: 'Bearer ' + token } : {},
+      headers: { Authorization: 'AuthBearer' },
     })
   }
 
-  public post_auth(
-    token: string,
+  public static post_auth(
     endpoint: string,
     body: any, // eslint-disable-line @typescript-eslint/no-explicit-any
     extraHeaders: RawAxiosRequestHeaders = {}
   ) {
     const headers: RawAxiosRequestHeaders = {
-      ...(token ? { Authorization: 'Bearer ' + token } : {}),
+      ...{ Authorization: 'AuthBearer' },
       ...extraHeaders,
     }
     return instance.post(endpoint, body, { headers })
   }
 
-  public get(endpoint: string, params: AxiosRequestConfig) {
+  public static get(endpoint: string, params: AxiosRequestConfig) {
     return instance.get(endpoint, { params })
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public post(endpoint: string, body: any) {
+  public static post(endpoint: string, body: any) {
     return instance.post(endpoint, body)
   }
 }
