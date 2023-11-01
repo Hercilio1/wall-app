@@ -4,7 +4,7 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-export default function MessageForm() {
+export default function NewEntryForm() {
   const [tweetText, setTweetText] = React.useState<string>('')
 
   const handleTweetTextChange = (

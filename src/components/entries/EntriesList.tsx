@@ -2,20 +2,12 @@
 
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-
+import { Box } from '@mui/material'
 import { fetchEntries } from '@/store/actions/entryActions'
 import { RootState, useAppDispatch } from '@/store/store'
+import EntryCell from './EntryCell'
 
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-} from '@mui/material'
-
-export default function MessagesList() {
+export default function EntriesList() {
   const dispatch = useAppDispatch()
   const { entries, loading, error, currentPage } = useSelector(
     (state: RootState) => state.entries
@@ -28,17 +20,7 @@ export default function MessagesList() {
   return (
     <Box className="flex flex-col">
       {entries.map((entry, index) => (
-        <Card key={index} className="h-full flex flex-col my-3">
-          <CardContent className="grow">
-            <Typography gutterBottom variant="h5" component="h2">
-              Heading
-            </Typography>
-            <Typography>{entry.content}</Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Edit</Button>
-          </CardActions>
-        </Card>
+        <EntryCell key={index} entry={entry} />
       ))}
     </Box>
   )

@@ -2,18 +2,18 @@
 
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import MessageForm from '@/components/messages/MessageForm'
-import MessagesList from '@/components/messages/MessagesList'
+import NewEntryForm from '@/components/entries/NewEntryForm'
+import EntriesList from '@/components/entries/EntriesList'
 
 export default function Home() {
   return (
     <main>
       <Box className="py-8">
         <Container maxWidth="sm">
-          <MessageForm />
+          <NewEntryForm />
         </Container>
         <Container className="pt-4" maxWidth="sm">
-          <MessagesList />
+          <EntriesList />
         </Container>
       </Box>
     </main>
