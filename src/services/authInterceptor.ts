@@ -3,6 +3,7 @@ import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
 import { renewAccessToken } from '@/store/actions/authActions'
 import { AppDispatch } from '@/store/store'
 import Api from '.'
+import { logout } from '@/store/reducers/authReducer'
 
 const authInterceptor = (store: ToolkitStore) => {
   Api.getInstance().interceptors.request.use(
@@ -50,6 +51,7 @@ const authInterceptor = (store: ToolkitStore) => {
             }
             return Api.getInstance()(originalConfig)
           } catch (_error) {
+            dispatch(logout())
             return Promise.reject(_error)
           }
         }

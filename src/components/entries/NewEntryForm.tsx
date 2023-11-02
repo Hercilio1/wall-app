@@ -1,23 +1,36 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, forwardRef } from 'react'
+import { useSelector } from 'react-redux'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { Alert as MuiAlert, AlertProps, Snackbar } from '@mui/material'
 import { RootState, useAppDispatch } from '@/store/store'
-import { useSelector } from 'react-redux'
 import { postNewEntry } from '@/store/actions/entryActions'
+
+const Alert = forwardRef<HTMLDivElement, AlertProps>(
+  function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+  }
+)
 
 export default function NewEntryForm() {
   const [entryContent, setEntryContent] = useState<string>('')
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
-  const { loading, error } = useSelector((state: RootState) => state.entries)
+  const { createLoading, createError } = useSelector(
+    (state: RootState) => state.entries
+  )
 
   useEffect(() => {
-    if (loading === 'succeeded') {
+    if (createLoading === 'succeeded') {
       setEntryContent('')
     }
-  }, [loading])
+    if (createLoading === 'failed') {
+      setOpenSnackbar(true)
+    }
+  }, [createLoading])
 
   const handleSubmit = () => {
     dispatch(postNewEntry(entryContent))
@@ -53,10 +66,20 @@ export default function NewEntryForm() {
       <Button
         variant="contained"
         onClick={handleSubmit}
-        disabled={loading === 'loading'}
+        disabled={createLoading === 'loading'}
       >
         Write
       </Button>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        onClose={() => setOpenSnackbar(false)}
+      >
+        <Alert severity="error" onClose={() => setOpenSnackbar(false)}>
+          {createError}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

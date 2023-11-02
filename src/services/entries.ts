@@ -16,10 +16,17 @@ export function postEntry(content: string): Promise<Entry> {
     {
       content: content,
     }
-  ).then((response) => {
-    if (response?.data) {
-      return response.data as Entry
-    }
-    throw new Error('Error while posting new entry')
-  })
+  )
+    .then((response) => {
+      if (response?.data) {
+        return response.data as Entry
+      }
+      throw new Error('Error while posting new entry')
+    })
+    .catch((error) => {
+      if (error?.response?.data?.detail) {
+        throw new Error(error.response.data.detail)
+      }
+      throw new Error('Error while posting new entry')
+    })
 }

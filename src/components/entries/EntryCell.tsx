@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux'
 
 export default function EntryCell({ entry }: { entry: Entry }) {
   const { user } = useSelector((state: RootState) => state.profile)
-
+  const isAuthenticated = user?.id === entry.user.id
   const accountCircleColor = user?.id === entry.user.id ? 'primary' : 'disabled'
 
   return (
@@ -29,9 +29,14 @@ export default function EntryCell({ entry }: { entry: Entry }) {
           <Typography>{entry.content}</Typography>
         </Box>
       </CardContent>
-      <CardActions>
-        <Button size="small">Edit</Button>
-      </CardActions>
+      {isAuthenticated && (
+        <CardActions>
+          <Button size="small">Edit</Button>
+          <Button size="small" color="error">
+            Delete
+          </Button>
+        </CardActions>
+      )}
     </Card>
   )
 }
