@@ -1,20 +1,18 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '@/store/store'
 import { fetchProfile } from '@/store/actions/profileActions'
-import { logout } from '@/store/reducers/authReducer'
+import { logout } from '@/store/actions/logoutActions'
 
 export default function AccountHeaderMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const dispatch = useAppDispatch()
-  const { user, loading, error } = useSelector(
-    (state: RootState) => state.profile
-  )
+  const { user } = useSelector((state: RootState) => state.profile)
 
   useEffect(() => {
     dispatch(fetchProfile())
@@ -59,6 +57,7 @@ export default function AccountHeaderMenu() {
         }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        disableScrollLock={true}
       >
         <MenuItem disabled>{user.first_name || user.username}</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>

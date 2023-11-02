@@ -17,7 +17,7 @@ class Api {
     })
   }
 
-  public static delete_auth(endpoint: string, params: AxiosRequestConfig) {
+  public static delete_auth(endpoint: string, params: AxiosRequestConfig = {}) {
     return instance.delete(endpoint, {
       params: { ...params },
       headers: { Authorization: 'AuthBearer' },
@@ -34,6 +34,18 @@ class Api {
       ...extraHeaders,
     }
     return instance.post(endpoint, body, { headers })
+  }
+
+  public static put_auth(
+    endpoint: string,
+    body: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    extraHeaders: RawAxiosRequestHeaders = {}
+  ) {
+    const headers: RawAxiosRequestHeaders = {
+      ...{ Authorization: 'AuthBearer' },
+      ...extraHeaders,
+    }
+    return instance.put(endpoint, body, { headers })
   }
 
   public static get(endpoint: string, params: AxiosRequestConfig) {

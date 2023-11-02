@@ -2,8 +2,8 @@ import { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import { ToolkitStore } from '@reduxjs/toolkit/dist/configureStore'
 import { renewAccessToken } from '@/store/actions/authActions'
 import { AppDispatch } from '@/store/store'
+import { logout } from '@/store/actions/logoutActions'
 import Api from '.'
-import { logout } from '@/store/reducers/authReducer'
 
 const authInterceptor = (store: ToolkitStore) => {
   Api.getInstance().interceptors.request.use(

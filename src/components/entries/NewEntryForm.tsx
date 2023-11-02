@@ -1,18 +1,12 @@
 'use client'
 
-import { useState, useEffect, forwardRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import { Alert as MuiAlert, AlertProps, Snackbar } from '@mui/material'
 import { RootState, useAppDispatch } from '@/store/store'
 import { postNewEntry } from '@/store/actions/entryActions'
-
-const Alert = forwardRef<HTMLDivElement, AlertProps>(
-  function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
-  }
-)
+import ErrorAlert from '../common/ErrorAlert'
 
 export default function NewEntryForm() {
   const [entryContent, setEntryContent] = useState<string>('')
@@ -22,6 +16,7 @@ export default function NewEntryForm() {
   const { createLoading, createError } = useSelector(
     (state: RootState) => state.entries
   )
+  const { user } = useSelector((state: RootState) => state.profile)
 
   useEffect(() => {
     if (createLoading === 'succeeded') {
@@ -40,6 +35,12 @@ export default function NewEntryForm() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setEntryContent(event.target.value)
+  }
+
+  const isAuthenticated = Boolean(user?.id)
+
+  if (!isAuthenticated) {
+    return <></>
   }
 
   return (
@@ -70,16 +71,12 @@ export default function NewEntryForm() {
       >
         Write
       </Button>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert severity="error" onClose={() => setOpenSnackbar(false)}>
-          {createError}
-        </Alert>
-      </Snackbar>
+      <ErrorAlert
+        message={createError}
+        openSnackbar={openSnackbar}
+        closeSnackbar={() => setOpenSnackbar(false)}
+        type="error"
+      />
     </div>
   )
 }
