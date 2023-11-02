@@ -1,22 +1,32 @@
 'use client'
 
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { RootState, useAppDispatch } from '@/store/store'
+import { useSelector } from 'react-redux'
+import { postNewEntry } from '@/store/actions/entryActions'
 
 export default function NewEntryForm() {
-  const [tweetText, setTweetText] = React.useState<string>('')
+  const [entryContent, setEntryContent] = useState<string>('')
 
-  const handleTweetTextChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTweetText(event.target.value)
+  const dispatch = useAppDispatch()
+  const { loading, error } = useSelector((state: RootState) => state.entries)
+
+  useEffect(() => {
+    if (loading === 'succeeded') {
+      setEntryContent('')
+    }
+  }, [loading])
+
+  const handleSubmit = () => {
+    dispatch(postNewEntry(entryContent))
   }
 
-  const handleSubmitTweet = () => {
-    // Implemente a lógica de envio do tweet aqui
-    console.log('Texto do tweet:', tweetText)
-    setTweetText('')
+  const handleEntryContentChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setEntryContent(event.target.value)
   }
 
   return (
@@ -28,8 +38,8 @@ export default function NewEntryForm() {
           variant="outlined"
           rows="4"
           className="w-full"
-          value={tweetText}
-          onChange={handleTweetTextChange}
+          value={entryContent}
+          onChange={handleEntryContentChange}
           sx={{
             '> div': {
               height: '125px',
@@ -40,7 +50,11 @@ export default function NewEntryForm() {
           }}
         />
       </div>
-      <Button variant="contained" onClick={handleSubmitTweet}>
+      <Button
+        variant="contained"
+        onClick={handleSubmit}
+        disabled={loading === 'loading'}
+      >
         Write
       </Button>
     </div>

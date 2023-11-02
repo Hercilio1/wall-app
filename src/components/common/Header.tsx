@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Button,
+  Link as MuiLink,
+} from '@mui/material'
 import AccountHeaderMenu from '@/components/auth/AccountHeaderMenu'
 import { RootState } from '@/store/store'
 import Link from 'next/link'
@@ -33,20 +40,17 @@ export default function Header() {
         }}
       >
         <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            color="text.primary"
-            className="grow"
-          >
-            Wall App
-          </Typography>
+          <Link href="/" passHref className="grow">
+            <Typography variant="h6" component="div" color="text.primary">
+              Wall App
+            </Typography>
+          </Link>
 
           {domLoaded &&
             (accessToken ? (
               <AccountHeaderMenu />
             ) : (
-              <Button color="primary" href="/login/" LinkComponent={Link}>
+              <Button color="primary" href="/login/" LinkComponent={MuiLink}>
                 Login
               </Button>
             ))}

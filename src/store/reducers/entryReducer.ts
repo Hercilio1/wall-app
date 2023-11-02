@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchEntries } from '../actions/entryActions'
+import { fetchEntries, postNewEntry } from '../actions/entryActions'
 import { Entry } from '@/models/Entry'
 
 const entrySlice = createSlice({
@@ -21,6 +21,13 @@ const entrySlice = createSlice({
         state.entries = action.payload
       })
       .addCase(fetchEntries.rejected, (state, action) => {
+        state.loading = 'failed'
+        state.error = action.error.message
+      })
+      .addCase(postNewEntry.pending, (state) => {
+        state.loading = 'loading'
+      })
+      .addCase(postNewEntry.rejected, (state, action) => {
         state.loading = 'failed'
         state.error = action.error.message
       })
