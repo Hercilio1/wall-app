@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Box, Button, TextField } from '@mui/material'
 import { RootState, useAppDispatch } from '@/store/store'
 import { Entry } from '@/models/Entry'
-import ErrorAlert from '@/components/common/ErrorAlert'
+import CustomAlert from '@/components/common/CustomAlert'
 import { updateEntry } from '@/store/actions/entryActions'
 import { resetLoadings } from '@/store/reducers/entryReducer'
 
@@ -81,7 +81,7 @@ export default function UpdateEntryForm({
           Write
         </Button>
       </Box>
-      <ErrorAlert
+      <CustomAlert
         message={updateError}
         openSnackbar={openSnackbar}
         closeSnackbar={() => setOpenSnackbar(false)}

@@ -17,7 +17,7 @@ import {
 } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { deleteEntry } from '@/store/actions/entryActions'
-import ErrorAlert from '../common/ErrorAlert'
+import CustomAlert from '../common/CustomAlert'
 import UpdateEntryForm from './UpdateEntryForm'
 import { resetLoadings } from '@/store/reducers/entryReducer'
 
@@ -100,7 +100,7 @@ export default function EntryCell({ entry }: { entry: Entry }) {
             </>
           )
         }
-        title={entry.user.first_name || entry.user.username}
+        title={entry.user.first_name || entry.user.email}
         subheader={new Date(entry.created_at).toLocaleString(undefined, {
           year: 'numeric',
           month: 'long',
@@ -120,7 +120,7 @@ export default function EntryCell({ entry }: { entry: Entry }) {
           </Box>
         )}
       </CardContent>
-      <ErrorAlert
+      <CustomAlert
         message={deleteError}
         openSnackbar={openSnackbar}
         closeSnackbar={() => setOpenSnackbar(false)}

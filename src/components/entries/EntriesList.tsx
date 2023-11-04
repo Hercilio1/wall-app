@@ -6,7 +6,7 @@ import { Box } from '@mui/material'
 import { fetchEntries } from '@/store/actions/entryActions'
 import { RootState, useAppDispatch } from '@/store/store'
 import EntryCell from './EntryCell'
-import ErrorAlert from '../common/ErrorAlert'
+import CustomAlert from '../common/CustomAlert'
 import { resetLoadings } from '@/store/reducers/entryReducer'
 
 export default function EntriesList() {
@@ -35,7 +35,7 @@ export default function EntriesList() {
           <EntryCell key={index} entry={entry} />
         ))}
       </Box>
-      <ErrorAlert
+      <CustomAlert
         message={error}
         openSnackbar={openSnackbar}
         closeSnackbar={() => setOpenSnackbar(false)}

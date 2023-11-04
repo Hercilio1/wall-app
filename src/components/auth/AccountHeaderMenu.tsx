@@ -59,7 +59,7 @@ export default function AccountHeaderMenu() {
         onClose={handleClose}
         disableScrollLock={true}
       >
-        <MenuItem disabled>{user.first_name || user.username}</MenuItem>
+        <MenuItem disabled>{user.first_name || user.email}</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

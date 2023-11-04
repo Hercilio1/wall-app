@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { RootState, useAppDispatch } from '@/store/store'
 import { postNewEntry } from '@/store/actions/entryActions'
-import ErrorAlert from '../common/ErrorAlert'
+import CustomAlert from '../common/CustomAlert'
 
 export default function NewEntryForm() {
   const [entryContent, setEntryContent] = useState<string>('')
@@ -71,7 +71,7 @@ export default function NewEntryForm() {
       >
         Write
       </Button>
-      <ErrorAlert
+      <CustomAlert
         message={createError}
         openSnackbar={openSnackbar}
         closeSnackbar={() => setOpenSnackbar(false)}

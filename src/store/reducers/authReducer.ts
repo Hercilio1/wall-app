@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { login, renewAccessToken } from '@/store/actions/authActions'
+import { login, renewAccessToken, signUp } from '@/store/actions/authActions'
 import { ErrorType, LoadingType } from '@/global/types'
 import { logout } from '../actions/logoutActions'
 
@@ -8,6 +8,9 @@ interface TokenState {
   refreshToken: string | null
   loading: LoadingType
   error: ErrorType
+  signUpLoading: LoadingType
+  signUpError: ErrorType
+  justSignedUp: boolean
 }
 
 const initialState: TokenState = {
@@ -19,6 +22,9 @@ const initialState: TokenState = {
       : null,
   loading: 'idle',
   error: undefined,
+  signUpLoading: 'idle',
+  signUpError: undefined,
+  justSignedUp: false,
 }
 
 const authSlice = createSlice({
@@ -28,6 +34,15 @@ const authSlice = createSlice({
     setTokens: (state, action) => {
       state.accessToken = action.payload.access_token
       state.refreshToken = action.payload.refresh_token
+    },
+    resetLoadings: (state) => {
+      state.loading = 'idle'
+      state.error = undefined
+      state.signUpLoading = 'idle'
+      state.signUpError = undefined
+    },
+    turnOffJustSignedUp: (state) => {
+      state.justSignedUp = false
     },
   },
   extraReducers: (builder) => {
@@ -56,6 +71,17 @@ const authSlice = createSlice({
         state.loading = 'failed'
         state.error = action.payload as string
       })
+      .addCase(signUp.pending, (state) => {
+        state.signUpLoading = 'loading'
+      })
+      .addCase(signUp.fulfilled, (state) => {
+        state.signUpLoading = 'succeeded'
+        state.justSignedUp = true
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.signUpLoading = 'failed'
+        state.signUpError = action.payload as string
+      })
       .addCase(logout, (state) => {
         state.accessToken = null
         state.refreshToken = null
@@ -65,6 +91,7 @@ const authSlice = createSlice({
   },
 })
 
-export const { setTokens } = authSlice.actions
+export const { setTokens, resetLoadings, turnOffJustSignedUp } =
+  authSlice.actions
 
 export default authSlice.reducer

@@ -13,7 +13,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
   }
 )
 
-export default function ErrorAlert({
+export default function CustomAlert({
   message,
   openSnackbar,
   closeSnackbar,
