@@ -11,6 +11,7 @@ import { ErrorType, LoadingType } from '@/global/types'
 interface TokenState {
   entries: Entry[]
   currentPage: number
+  hasMore: boolean
   loading: LoadingType
   error: ErrorType
   createLoading: LoadingType
@@ -23,7 +24,8 @@ interface TokenState {
 
 const initialState: TokenState = {
   entries: [] as Entry[],
-  currentPage: 1,
+  currentPage: 0,
+  hasMore: true,
   loading: 'idle',
   error: undefined,
   createLoading: 'idle',
@@ -38,6 +40,9 @@ const entrySlice = createSlice({
   name: 'entries',
   initialState: initialState,
   reducers: {
+    getNextPage: (state) => {
+      state.currentPage += 1
+    },
     resetLoadings: (state) => {
       state.loading = 'idle'
       state.error = undefined
@@ -56,7 +61,8 @@ const entrySlice = createSlice({
       })
       .addCase(fetchEntries.fulfilled, (state, action) => {
         state.loading = 'idle'
-        state.entries = action.payload
+        state.hasMore = Boolean(action.payload.next)
+        state.entries = [...state.entries, ...action.payload.results]
       })
       .addCase(fetchEntries.rejected, (state, action) => {
         state.loading = 'failed'
@@ -101,5 +107,5 @@ const entrySlice = createSlice({
   },
 })
 
-export const { resetLoadings } = entrySlice.actions
+export const { resetLoadings, getNextPage } = entrySlice.actions
 export default entrySlice.reducer

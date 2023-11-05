@@ -1,13 +1,22 @@
 import { Entry } from '@/models/Entry'
 import Api from '.'
+import { EntriesPackage } from '@/models/EntriesPackage'
 
-export function getEntries(page: number = 1): Promise<Entry[]> {
+export function getEntries(page: number): Promise<EntriesPackage> {
+  if (page < 1) {
+    return new Promise((resolve) => {
+      resolve({
+        results: [],
+        next: null,
+        previous: null,
+        count: 0,
+      } as EntriesPackage)
+    })
+  }
   return Api.get(
-    `${process.env.NEXT_PUBLIC_URL_API}/api/v1/entries/?format=json`,
-    {
-      params: { page }, // TODO: Corrigir lógica de paginação
-    }
-  ).then((response) => (response?.data?.results || []) as Entry[])
+    `${process.env.NEXT_PUBLIC_URL_API}/api/v1/entries/?format=json&page=${page}`,
+    {}
+  ).then((response) => response?.data as EntriesPackage)
 }
 
 export function postEntry(content: string): Promise<Entry> {
