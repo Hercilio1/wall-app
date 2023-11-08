@@ -36,3 +36,4 @@ next-env.d.ts
 
 # enviroments variables
 .env
+.env.production
