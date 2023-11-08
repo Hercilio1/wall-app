@@ -62,7 +62,12 @@ const entrySlice = createSlice({
       .addCase(fetchEntries.fulfilled, (state, action) => {
         state.loading = 'idle'
         state.hasMore = Boolean(action.payload.next)
-        state.entries = [...state.entries, ...action.payload.results]
+        const isFirstPage = !Boolean(action.payload.previous)
+        if (isFirstPage) {
+          state.entries = action.payload.results
+        } else {
+          state.entries = [...state.entries, ...action.payload.results]
+        }
       })
       .addCase(fetchEntries.rejected, (state, action) => {
         state.loading = 'failed'
