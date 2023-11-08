@@ -23,18 +23,23 @@ export default function EntriesList() {
     const container = containerRef.current
     if (container) {
       if (
-        loading === 'idle' &&
+        currentPage >= 1 &&
+        loading === 'succeeded' &&
         hasMore &&
         window.scrollY + window.innerHeight >= container.scrollHeight - 200
       ) {
         dispatch(getNextPage())
       }
     }
-  }, [dispatch, loading, hasMore])
+  }, [dispatch, loading, hasMore, currentPage])
 
   useEffect(() => {
     dispatch(resetLoadings())
-    dispatch(fetchEntries(currentPage))
+    if (currentPage === 0) {
+      dispatch(getNextPage())
+    } else {
+      dispatch(fetchEntries(currentPage))
+    }
   }, [dispatch, currentPage])
 
   useEffect(() => {

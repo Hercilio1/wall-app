@@ -41,6 +41,7 @@ const entrySlice = createSlice({
   initialState: initialState,
   reducers: {
     getNextPage: (state) => {
+      state.loading = 'idle'
       state.currentPage += 1
     },
     resetLoadings: (state) => {
@@ -54,7 +55,8 @@ const entrySlice = createSlice({
       state.updateError = undefined
     },
     resetPage: (state) => {
-      state.currentPage = 1
+      state.loading = 'idle'
+      state.currentPage = 0
     },
   },
   extraReducers: (builder) => {
@@ -63,7 +65,6 @@ const entrySlice = createSlice({
         state.loading = 'loading'
       })
       .addCase(fetchEntries.fulfilled, (state, action) => {
-        state.loading = 'idle'
         state.hasMore = Boolean(action.payload.next)
         const isFirstPage = !Boolean(action.payload.previous)
         if (isFirstPage) {
@@ -71,6 +72,7 @@ const entrySlice = createSlice({
         } else {
           state.entries = [...state.entries, ...action.payload.results]
         }
+        state.loading = 'succeeded'
       })
       .addCase(fetchEntries.rejected, (state, action) => {
         state.loading = 'failed'
