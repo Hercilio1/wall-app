@@ -53,6 +53,9 @@ const entrySlice = createSlice({
       state.updateLoading = 'idle'
       state.updateError = undefined
     },
+    resetPage: (state) => {
+      state.currentPage = 1
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -112,5 +115,5 @@ const entrySlice = createSlice({
   },
 })
 
-export const { resetLoadings, getNextPage } = entrySlice.actions
+export const { resetLoadings, getNextPage, resetPage } = entrySlice.actions
 export default entrySlice.reducer

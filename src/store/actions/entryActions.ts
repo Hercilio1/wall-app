@@ -5,6 +5,7 @@ import {
   deleteEntry as deleteEntryService,
   updateEntry as updateEntryService,
 } from '@/services/entries'
+import { resetPage } from '../reducers/entryReducer'
 
 export const fetchEntries = createAsyncThunk(
   'entries/fetchEntries',
@@ -23,7 +24,7 @@ export const postNewEntry = createAsyncThunk(
   async (content: string, { dispatch, rejectWithValue }) => {
     try {
       await postEntry(content)
-      dispatch(fetchEntries(1))
+      dispatch(resetPage())
     } catch (error) {
       const err = error as Error
       return rejectWithValue(err.message)
@@ -36,7 +37,7 @@ export const deleteEntry = createAsyncThunk(
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
       await deleteEntryService(id)
-      dispatch(fetchEntries(1))
+      dispatch(resetPage())
     } catch (error) {
       const err = error as Error
       return rejectWithValue(err.message)
