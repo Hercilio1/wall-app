@@ -137,6 +137,7 @@ export default function SignUpForm() {
               fullWidth
               id="email"
               label="Email Address"
+              type="email"
               autoComplete="email"
               value={email}
               {...handleRequiredError('email', (e) => setEmail(e.target.value))}

@@ -50,6 +50,10 @@ export default function LoginForm() {
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
+          label="Email Address"
+          type="email"
+          autoComplete="email"
+          autoFocus
           value={email}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setEmail(e.target.value)
@@ -59,6 +63,7 @@ export default function LoginForm() {
         />
         <TextField
           margin="normal"
+          label="Password"
           type="password"
           value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
