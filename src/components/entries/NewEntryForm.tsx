@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import { RootState, useAppDispatch } from '@/store/store'
 import { postNewEntry } from '@/store/actions/entryActions'
 import CustomAlert from '../common/CustomAlert'
+import EntryTextEditor from './EntryTextEditor'
 
 export default function NewEntryForm() {
   const [entryContent, setEntryContent] = useState<string>('')
@@ -31,12 +31,6 @@ export default function NewEntryForm() {
     dispatch(postNewEntry(entryContent))
   }
 
-  const handleEntryContentChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setEntryContent(event.target.value)
-  }
-
   const isAuthenticated = Boolean(user?.id)
 
   if (!isAuthenticated) {
@@ -46,22 +40,10 @@ export default function NewEntryForm() {
   return (
     <div className="flex flex-col items-end">
       <div className="w-full mb-2">
-        <TextField
+        <EntryTextEditor
           label="What do you want to share?"
-          multiline
-          variant="outlined"
-          rows="4"
-          className="w-full"
           value={entryContent}
-          onChange={handleEntryContentChange}
-          sx={{
-            '> div': {
-              height: '125px',
-            },
-            '& textarea': {
-              height: '92px',
-            },
-          }}
+          onChange={setEntryContent}
         />
       </div>
       <Button

@@ -116,7 +116,9 @@ export default function EntryCell({ entry }: { entry: Entry }) {
           />
         ) : (
           <Box className="mt-2">
-            <Typography>{entry.content}</Typography>
+            <Typography className="whitespace-pre-wrap">
+              {entry.content}
+            </Typography>
           </Box>
         )}
       </CardContent>

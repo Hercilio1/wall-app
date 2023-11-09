@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { RootState, useAppDispatch } from '@/store/store'
 import { Entry } from '@/models/Entry'
 import CustomAlert from '@/components/common/CustomAlert'
 import { updateEntry } from '@/store/actions/entryActions'
 import { resetLoadings } from '@/store/reducers/entryReducer'
+import EntryTextEditor from './EntryTextEditor'
 
 export default function UpdateEntryForm({
   entry,
@@ -38,31 +39,13 @@ export default function UpdateEntryForm({
     dispatch(updateEntry({ id: entry.id, content: entryContent }))
   }
 
-  const handleEntryContentChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setEntryContent(event.target.value)
-  }
-
   return (
     <div className="flex flex-col items-end">
       <div className="w-full mb-2">
-        <TextField
+        <EntryTextEditor
           label="Editing..."
-          multiline
-          variant="outlined"
-          rows="4"
-          className="w-full"
           value={entryContent}
-          onChange={handleEntryContentChange}
-          sx={{
-            '> div': {
-              height: '125px',
-            },
-            '& textarea': {
-              height: '92px',
-            },
-          }}
+          onChange={setEntryContent}
         />
       </div>
       <Box className="flex">
